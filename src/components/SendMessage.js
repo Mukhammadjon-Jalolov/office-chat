@@ -9,23 +9,25 @@ import SendIcon from '@mui/icons-material/Send';
 export default function SendMessage({updateMsg}){
 	const [value, setValue] = React.useState('');
 	
+	// Here the message is stored before sending
 	const handleChange = (event) => {
 		setValue(event.target.value);
 	};
 	
+	// Here sending the message by hitting the Enter button
 	const handleEnter = (event) => {
 		if(event.key === 'Enter'){
 			//console.log(value)
-			updateMsg(value)
+			{value.length ? updateMsg(value) : console.log("please fill your message")}
 			setValue("")
 			event.preventDefault()
 		}
 	}
 	
+	// Here sending the message by clicking the Send icon
 	const handleSend = (event) => {
 		//console.log(value)
-			{value.length ? updateMsg(value) : console.log("please fill your message")}
-		
+		{value.length ? updateMsg(value) : console.log("please fill your message")}
 		setValue("")
 		event.preventDefault()
 	}

@@ -13,12 +13,23 @@ import SendMessage from "../../components/SendMessage";
 //https://www.w3schools.com/js/js_callback.asp
 
 
+function OnlinePerson(props){
+	return (
+			<li key = {props} className = "onlinePerson" >
+				<p> {props.item.name} is now online </p>
+			</li>
+		)
+}
+
+
 class Home extends Component {
 	
 constructor(props){
 	super(props);
 	this.state = {
-		messages: []
+		messages: [],
+		peoplesList: [ {isOnline: true, name: "Shaxnoza", isSending: true, isFriend: true}, {isOnline: true, name: "Dildora", isSending: true, isFriend: true}, 
+		{isOnline: true, name: "Oydin", isSending: true, isFriend: true} ]
 	}
 }
 
@@ -37,13 +48,29 @@ updateMessages = (msg) => {
 	console.log(tempArr)
 }
 
+
+
 render(){
 	
 	const messagesList = this.state.messages.map((result) => (
 		<li key = {result.vaqt} style = {{listStyleType: "none"}}>
 			<p> {result.yuboruvchi}: {result.xabar} {result.soat.length == 1 ? result.soat : "0" + result.soat} : {result.minut} </p>
 		</li>
-	))
+	));
+	
+	const isOnlineArray = this.state.peoplesList.filter((item) => {
+		if (item.isOnline == true){
+			return item;
+		}
+	});
+	
+	
+	const onlinePeoplesList = isOnlineArray.map((item) => (
+		
+			<OnlinePerson item = {item} />
+		
+	));
+	
 	
 	return(
 		<div className = "App">
@@ -51,6 +78,7 @@ render(){
 			<div className = "OpenChat">
 				<p> This is OpenChat part on the left </p>
 				<h3> Here you can show online people who is communicating </h3>
+					{onlinePeoplesList}
 			</div>
 			
 			<div className = "Messaging">
@@ -63,6 +91,7 @@ render(){
 			
 			<div className = "WhoIsOnline">
 				<p> This is Who is Online part on the right. Here you see who is online </p>
+				{onlinePeoplesList}
 			</div>
 			
 		</div>
