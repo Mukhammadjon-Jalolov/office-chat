@@ -14,13 +14,38 @@ import SendMessage from "../../components/SendMessage";
 
 
 function OnlinePerson(props){
+	
+	hoverChat = () => {
+		
+	}
+	
+	hoverChatExit = () => {
+		
+	}
+	
 	return (
-			<li key = {props} className = "onlinePerson" >
-				<p> {props.item.name} is now online </p>
+			<li key = {props} className = "onlinePerson" onMouseEnter = {hoverChat} onMouseLeave = {hoverChatExit} >
+				<p> {props.item.name} is online </p>
 			</li>
 		)
 }
 
+function InteractionsComponent(props){
+	return (
+		<li key = {props} className = "onlineInteraction" >
+			<p> {props.item.sender} --> {props.item.receiver}</p>
+		</li>
+	)
+}
+
+function hoverChatPerson(props){
+	return (
+		<div className = "chatCard">
+			<p> props.user.name </p>
+			
+		</div>
+	)
+}
 
 class Home extends Component {
 	
@@ -29,7 +54,9 @@ constructor(props){
 	this.state = {
 		messages: [],
 		peoplesList: [ {isOnline: true, name: "Shaxnoza", isSending: true, isFriend: true}, {isOnline: true, name: "Dildora", isSending: true, isFriend: true}, 
-		{isOnline: true, name: "Oydin", isSending: true, isFriend: true} ]
+		{isOnline: true, name: "Oydin", isSending: true, isFriend: true} ],
+		newmessage: {sentId: "", name: "Shaxnoza", message: "Hello how are you today?", emoji: [], media: []},
+		interactions: [{sender: "Shaxnoza", receiver: "Oydin"}, {sender: "Dildora", receiver: "Shaxnoza"}]
 	}
 }
 
@@ -64,13 +91,13 @@ render(){
 		}
 	});
 	
-	
 	const onlinePeoplesList = isOnlineArray.map((item) => (
-		
-			<OnlinePerson item = {item} />
-		
+		<OnlinePerson item = {item} />
 	));
 	
+	const interactionsElement = this.state.interactions.map((item) => (
+		<InteractionsComponent item = {item} />
+	))
 	
 	return(
 		<div className = "App">
@@ -78,7 +105,9 @@ render(){
 			<div className = "OpenChat">
 				<p> This is OpenChat part on the left </p>
 				<h3> Here you can show online people who is communicating </h3>
-					{onlinePeoplesList}
+				<div className = "aroundList">
+					{interactionsElement}
+				</div>
 			</div>
 			
 			<div className = "Messaging">
@@ -91,7 +120,9 @@ render(){
 			
 			<div className = "WhoIsOnline">
 				<p> This is Who is Online part on the right. Here you see who is online </p>
-				{onlinePeoplesList}
+				<div className = "aroundList">
+					{onlinePeoplesList}
+				</div>
 			</div>
 			
 		</div>
